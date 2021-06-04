@@ -1,5 +1,6 @@
 package ar.edu.unju.fi.tp5.service.imp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,6 +68,17 @@ public class ClienteServiceMySQlImp implements IClienteService {
 	public void eliminarCliente(Long id) {
 		clienteRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public List<Cliente> buscarClientes(String nombreApellido, int dni) {
+		List <Cliente> clientes = new ArrayList<Cliente>();   
+		if(!nombreApellido.isEmpty() && dni>=0) {
+			    clientes = clienteRepository.findByProductoNombreAndDniGreaterThanEqual(nombreApellido, dni);
+			  }else if(nombreApellido.isEmpty() && dni >=0) {
+				       clientes = clienteRepository.findByDniGreaterThanEqual(dni);
+			  }
+		   return clientes;
 	}
 	
 	

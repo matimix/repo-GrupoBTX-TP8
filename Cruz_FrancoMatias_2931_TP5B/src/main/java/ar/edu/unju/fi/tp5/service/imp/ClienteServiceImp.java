@@ -80,6 +80,12 @@ public class ClienteServiceImp implements IClienteService {
 		
 	}
 
+	@Override
+	public List<Cliente> buscarClientes(String nombreApellido, int dni) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 	

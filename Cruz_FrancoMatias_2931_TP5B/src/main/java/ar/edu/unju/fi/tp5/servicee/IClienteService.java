@@ -26,4 +26,8 @@ public interface IClienteService {
 	public void eliminarCliente(Long id);
 	
 	
+	//nuevo para compra
+	public List<Cliente> buscarClientes(String nombre, int dni);
+	
+	
 }
