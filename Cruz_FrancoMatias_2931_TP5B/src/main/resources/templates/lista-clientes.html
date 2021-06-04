@@ -14,7 +14,29 @@
    
    
    <div align='center'>
-   //nuevo selector
+   
+   
+   <div class="col-md -8 justify-content-left">
+        <form th:action="@{/cliente/busqueda}" th:object="${cliente}" th:method="GET">
+        
+           <div class="from-group row">
+                   <label for="nombreApellido" class="col -sm-3 col-form-label">Nombre a buscar</label>
+                   <div class="col-sm-5">
+                         <input type="text" class="form-control" id="nombreApellido" th:field="*{nombreApellido}">
+                   </div>
+           </div>
+            
+           <div class="from-group row">
+                   <label for="dni" class="col -sm-3 col-form-label">Dni a buscar</label>
+                   <div class="col-sm-5">
+                         <input type="number" class="form-control" id="dni" th:field="*{dni}">
+                   </div>
+           </div>   
+        
+          <button type="submit" class="btn btn-success">Buscar</button>
+        </form>
+           
+        </div>
    <div class="conteiner">
    <div class="contenedor-table">
      
@@ -63,6 +85,8 @@
            <td th:text="${alu.getTUltimaCompra}"></td>
            <td th:text="${alu.TiempoEnDias}"></td>
            <td th:text="${alu.Thastacumple }"></td>
+           
+           
            <td>
              <a th:href="@{/cliente/editar/}+${alu.id}" class="btn btn-warning">Editar</a>
              <a th:href="@{/cliente/eliminar/}+${alu.id}" class="btn btn-danger">Eliminar</a>
