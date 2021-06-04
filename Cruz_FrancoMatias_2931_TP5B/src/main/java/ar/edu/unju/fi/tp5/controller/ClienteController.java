@@ -3,16 +3,21 @@ package ar.edu.unju.fi.tp5.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unju.fi.tp5.model.Cliente;
+import ar.edu.unju.fi.tp5.model.Compra;
 import ar.edu.unju.fi.tp5.model.Producto;
 import ar.edu.unju.fi.tp5.servicee.IClienteService;
 import ar.edu.unju.fi.tp5.servicee.ICompraService;
@@ -59,17 +64,28 @@ public class ClienteController {
   
   
 	 @PostMapping("/cliente/guardar")
-	public ModelAndView guardarCliente(@ModelAttribute("cliente")Cliente cliente) {
-		 ModelAndView modelView = new ModelAndView("clientes");
-		 clienteService.addCliente(cliente);
+	public ModelAndView guardarCliente(@Valid @ModelAttribute("cliente")Cliente cliente,BindingResult resultadoValid) {
+		 ModelAndView modelView;
+		 if(resultadoValid.hasErrors()){ // si tiene errores
+			 modelView= new ModelAndView("nuevocliente");
+			//la lista para mostrar productos
+				List<Producto> productos = productoService.getAllProductos();
+				modelView.addObject("productos",productos);
+		          return modelView;
+		 } else 
+		 { //no hay errores
+			   modelView = new ModelAndView("lista-clientes");
+			 clienteService.addCliente(cliente);
 		modelView.addObject("clientes",clienteService.getAllClientes());
 		return modelView;
+	     } 
 	}
 	
  @GetMapping("/cliente/listado")
  public String getClientesPAGE(Model model) {
+	 model.addAttribute("cliente",clienteService.getCliente());
 	 model.addAttribute("clientes",clienteService.getAllClientes());
-	 return "clientes";
+	 return "lista-clientes";
  }
  
  
@@ -99,20 +115,19 @@ public class ClienteController {
 	 
  }
  
- 
- 
- 
- 
- 
-
-
- @GetMapping("/index")
+@GetMapping("/index")
 	public String getTestCirculo() {
 		return "index";
 	}
 
+@GetMapping("/cliente/busqueda")
 
-
+     public String buscarCompraPorFiltro(@RequestParam(name="nombreApellido") String nombreApellido, @RequestParam(name="dni") int dni,Model model, @ModelAttribute(name="cliente") Cliente cliente) {
+	           model.addAttribute("cliente",clienteService.getCliente());
+               model.addAttribute("clientes",clienteService.buscarClientes(nombreApellido, dni));
+          return "lista-clientes";       
+   }
+	
 
 
 
