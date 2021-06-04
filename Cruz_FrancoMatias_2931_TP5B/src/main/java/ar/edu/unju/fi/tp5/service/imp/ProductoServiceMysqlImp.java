@@ -49,6 +49,12 @@ public class ProductoServiceMysqlImp implements IProductoService {
 		return producto;
 	}
 
+	@Override
+	public void tablaProductos() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 	
